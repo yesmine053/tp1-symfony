@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des tâches{% endblock %}
+
+{% block body %}
+<h1 class="mb-4">📋 Liste des tâches</h1>
+
+<a href="{{ path('app_tache_ajouter') }}" class="btn btn-primary mb-3">
+    ➕ Ajouter une tâche
+</a>
+
+{% if taches is empty %}
+    <div class="alert alert-info">Aucune tâche trouvée.</div>
+{% else %}
+    <ul class="list-group">
+        {% for tache in taches %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                
+                <span class="{% if tache.terminee %}text-decoration-line-through text-muted{% endif %}">
+                    {{ tache.titre }}
+                </span>
+
+                <div>
+                    <a href="{{ path('app_tache_detail', {id: tache.id}) }}" 
+                       class="btn btn-sm btn-info">Voir</a>
+
+                    {% if not tache.terminee %}
+                        <a href="{{ path('app_tache_terminer', {id: tache.id}) }}" 
+                           class="btn btn-sm btn-success">
+                           ✔ Terminer
+                        </a>
+                    {% endif %}
+                </div>
+
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+{% endblock %}
